@@ -72,5 +72,4 @@ def translate(y_lang) {
 
 ## FAQ
 
-较多的重复的 FAQ 将会在此处列出, 方便大家查找并获得解决方法,
-如果没有请提交 [Issues](https://github.com/QiYiJun/MCTranslate/issues)
+较多的重复的 FAQ 将会在此处列出, 方便大家查找并获得解决方法, 如果没有请提交 [Issues](https://github.com/QiYiJun/MCTranslate/issues)
