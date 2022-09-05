@@ -20,12 +20,17 @@
 
 ### 目前实现功能
 
-- FTB Quests(FTB任务) 翻译: 标题, 副标题, 任务描述
+- FTB Quests(FTB任务) 翻译内容包含: 标题, 副标题, 任务描述
+    - 已知缺陷:
+        - [```格式化代码```](https://minecraft.fandom.com/zh/wiki/%E6%A0%BC%E5%BC%8F%E5%8C%96%E4%BB%A3%E7%A0%81)会被清除
+        - 当前仅支持```大于 1.12.2 游戏版本```的 FTBQ
 
 ### 待实现功能
 
 - Better Quests(更好的任务) 翻译
 - Triumph(自定义进度) 翻译
+- FTB Guides(FTB指南) 翻译
+- Guide Api(指南) 翻译
 
 ## 翻译API接入
 
@@ -47,14 +52,23 @@ salt | 自定义校验字符串,可为英文数字,长度限制不清楚,个人建议16字符内
 XX翻译 -> custom_api.py
 ```
 
-你需要在新建的这个py文件中写入一个必要的函数 translate
+你需要在新建的py文件中写入一个必要的函数```translate```
 
-以及一个必要传递参数 y_lang (参数名字可自拟,y_lang传递的是待翻译文本)
+以及一个必要传递参数```y_lang```(参数名字可自拟, ```y_lang```是待翻译内容, 类型为字符串)
+
+函数的返回值是```翻译后的```内容```retuen tr_lang``` ```tr_lang```可自拟, 但必须是字符串
 
 ```
 def translate(y_lang) {
-
+    ......
+    return tr_lang
 }
 ```
 
-未写完...
+在```main.py```中, 你只需要修改```from bai_api import translate```, 将```bai_api```修改成你新建的py文件名字即可.
+例如: ```from custom_api import translate``` 如果你知道其原理, 你可以不遵循上述规定的函数名称
+
+## FAQ
+
+较多的重复的 FAQ 将会在此处列出, 方便大家查找并获得解决方法,
+如果没有请提交 [Issues](https://github.com/QiYiJun/MCTranslate/issues)
