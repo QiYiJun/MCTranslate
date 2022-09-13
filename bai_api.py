@@ -1,4 +1,6 @@
 import hashlib
+import json
+
 import requests
 
 
@@ -12,20 +14,23 @@ def sign(appid, y_lang, salt, key):
 def translate(y_lang):
     # 百度翻译url
     bai_url = 'https://fanyi-api.baidu.com/api/trans/vip/translate'
-    # appid,到百度翻译控制台看 https://fanyi-api.baidu.com/api/trans/product/desktop
-    appid = '20220904001331072'
-    # 密钥,同上
-    key = 'qUVeIIVwZiIMYKOO6nlu'
-    # 设置salt用于校验MD5值,可自定义,我用自己QQ号
-    salt = '1497055242'
+
+    # 请到 user_cfg.json 文件修改自己的 appid,key,salt
+    # appid 可在百度翻译控制台找到 https://fanyi-api.baidu.com/api/trans/product/desktop
+    # key 密钥,同上
+    # salt 用于校验MD5值,可自定义,我用自己QQ号
+    with open('user_cfg.json', 'r', encoding='utf-8') as f:
+        user_cfg = json.loads(f.read())
+        f.close()
+
     # post请求的表单数据,详情可参考 https://fanyi-api.baidu.com/product/113
     data = {
         "q": y_lang,
         "from": "en",
         "to": "zh",
-        "appid": appid,
-        "salt": salt,
-        "sign": sign(appid, y_lang, salt, key)
+        "appid": user_cfg.appid,
+        "salt": user_cfg.salt,
+        "sign": sign(user_cfg.appid, y_lang, user_cfg.salt, user_cfg.key)
     }
     # 请求头,非必要时不要修改
     header = {
