@@ -2,7 +2,7 @@
 
 ## 项目起源
 
-对于翻译整合包的作者们来说, 一个整合包不热门, 作者们很难有动力去进行翻译,光靠爱发电是不够的
+对于翻译整合包的作者们来说, 一个整合包不热门, 作者们很难有动力去进行翻译, 光靠爱发电是不够的
 
 对于整合包而言, 玩家们无法或难以理解部分的大多为任务,指南书......等
 
@@ -22,17 +22,17 @@
 
 ### 目前实现功能
 
-- FTB Quests(FTB任务) 翻译内容包含: 标题, 副标题, 任务描述
+- [FTB Quests(FTB任务)](https://www.curseforge.com/minecraft/mc-mods/ftb-quests-forge) 翻译内容包含: 标题, 副标题, 任务描述
     - 已知缺陷:
         - [```格式化代码```](https://minecraft.fandom.com/zh/wiki/%E6%A0%BC%E5%BC%8F%E5%8C%96%E4%BB%A3%E7%A0%81)会被清除
-        - 当前仅支持```大于 1.12.2 游戏版本```的 FTBQ
+        - 当前仅支持```大于 1.12.2 游戏版本```
 
 ### 待实现功能
 
-- Better Quests(更好的任务) 翻译
-- Triumph(自定义进度) 翻译
-- FTB Guides(FTB指南) 翻译
-- Guide Api(指南) 翻译
+- [Better Questing(更好的任务)](https://www.curseforge.com/minecraft/mc-mods/better-questing)
+- [Triumph(自定义进度)](https://www.curseforge.com/minecraft/mc-mods/triumph)
+- [FTB Guides(FTB指南)](https://www.curseforge.com/minecraft/mc-mods/ftb-guides-forge)
+- [Guide Api(指南)](https://www.curseforge.com/minecraft/mc-mods/guide-api)
 
 ## 翻译API接入
 
@@ -73,3 +73,9 @@ def translate(y_lang) {
 ## FAQ
 
 较多的重复的 FAQ 将会在此处列出, 方便大家查找并获得解决方法, 如果没有请提交 [Issues](https://github.com/QiYiJun/MCTranslate/issues)
+
+## Tips
+
+目前项目的代码是粗制的、糟糕的, 如果你有能力以及兴趣, 可以直接拉取并重构我的代码; 注意: 如果你想为这个项目贡献自己的代码, 请创建一个分支, 而不是在主分支上进行提交 !
+
+我也正在尝试重构代码, 我打算以模块化的方式实现翻译功能, 也是为了更多的任务模组提供翻译
