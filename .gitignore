@@ -1,6 +1,7 @@
 # ÅÅ³ıÄ¿Â¼
 /package/
 /.idea/
+/__pycache__/
 # ÅÅ³ıÎÄ¼ş
 user_cfg.json
 test.py
