@@ -7,6 +7,7 @@ import time
 import zipfile
 from bai_api import translate
 import logging
+
 from v_config import cfg_
 
 
@@ -21,17 +22,17 @@ def rw_file(file_path, model, tr_con=''):
             f.close()
 
 
-# 压缩文件
-def zip_dir(directory, zipname):
-    # 这里是将翻译好的整合包进行压缩,输出路径为tr_package,但没写成功,压缩后压缩包中嵌套多层文件夹
-    # 失败的方法,压缩出来的包套了多层文件夹
-    if os.path.exists(directory):
-        outZipFile = zipfile.ZipFile(zipname, 'w', zipfile.ZIP_DEFLATED)
-        for dirpath, dirnames, filenames in os.walk(directory):
-            for filename in filenames:
-                filepath = os.path.join(dirpath, filename)
-                outZipFile.write(filepath, filename)
-        outZipFile.close()
+# 压缩文件(失败, 未成功)
+# def zip_dir(directory, zipname):
+#     # 这里是将翻译好的整合包进行压缩,输出路径为tr_package,但没写成功,压缩后压缩包中嵌套多层文件夹
+#     # 失败的方法,压缩出来的包套了多层文件夹
+#     if os.path.exists(directory):
+#         outZipFile = zipfile.ZipFile(zipname, 'w', zipfile.ZIP_DEFLATED)
+#         for dirpath, dirnames, filenames in os.walk(directory):
+#             for filename in filenames:
+#                 filepath = os.path.join(dirpath, filename)
+#                 outZipFile.write(filepath, filename)
+#         outZipFile.close()
 
 
 # 解压文件
@@ -42,11 +43,41 @@ def unzip(zips_path, unzip_path):
 # 检索整合包
 def search_packages():
     # 检索的整合包路径
+    if not os.path.exists('package'):
+        os.makedirs('package')
+        logging.info('已创建package文件夹, 请将整合包放入package文件夹中进行翻译')
+        exit()
     packages_path = os.listdir('package')
+    if not packages_path:
+        logging.info('未找到整合包, 请检查package文件夹')
+        exit()
     for package in packages_path:
-        if os.path.splitext(package)[1] != '.zip':  # 找出zip后缀的路径
+        # 找出zip后缀的路径
+        if os.path.splitext(package)[1] != '.zip':
             packages_path.remove(package)
     return packages_path
+
+
+# 获取整合包游戏版本
+def get_game_version(zip_files, package):
+    try:
+        # 获取整合包的游戏版本
+        game_version = json.loads(zip_files.open('manifest.json').read())['minecraft']['version']
+        logging.info('已识别 "{}" 游戏版本为: {}'.format(package, game_version))
+        return game_version
+    except Exception as e:
+        logging.error('发生异常:', e)
+        sys.exit()
+
+
+# 获取汉化区域
+def get_tr_part(zip_files_path, version_cfg):
+    for i in version_cfg:
+        for zip_file_path in zip_files_path:
+            if zip_file_path.startswith(version_cfg[i]['path_']):
+                logging.info('检测到 {}'.format(i))
+                version_cfg[i]['value_'] = True
+                break
 
 
 # 索引版本以及汉化区域
@@ -61,34 +92,12 @@ def search_tr_areas(packages_path):
         try:
             version_cfg = cfg_[game_version]
         except KeyError as e:
-            logging.error('未配置cfg的游戏版本:' + str(e))
+            logging.error('未配置的游戏版本: {}, 请在v-config中配置'.format(e))
 
-        get_tr_part(zip_files_path, version_cfg, game_version)
-        break
+        get_tr_part(zip_files_path, version_cfg)
 
-
-# 获取整合包游戏版本
-def get_game_version(zip_files, package):
-    try:
-        # 获取整合包的游戏版本
-        game_version = json.loads(zip_files.open('manifest.json').read())['minecraft']['version']
-        # print('整合包', package, '已识别游戏版本:', game_version)
-        logging.info('整合包"' + package + '"已识别游戏版本为:' + game_version)
-        return game_version
-    except Exception as e:
-        # print('发生异常:', e)
-        logging.error('发生异常:', e)
-        sys.exit()
-
-
-# 获取汉化区域
-def get_tr_part(zip_files_path, version_cfg, game_version):
-    for i in version_cfg:
-        for zip_file_path in zip_files_path:
-            if zip_file_path.startswith(version_cfg[i]['path_']):
-                version_cfg[i]['value_'] = True
-                break
-    logging.info(version_cfg)
+        # logging.info(version_cfg)
+        # break
 
 
 # # package文件夹,删除非.zip格式以外的文件,请不要在package存放任何与整合包无关的文件夹/文件
