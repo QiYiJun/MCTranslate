@@ -9,5 +9,14 @@ cfg_ = {
             "value_": False
         }
     },
-    "1.16.5": {}
+    "1.16.5": {
+        "ftb_quests": {
+            "path_": "overrides/config/ftbquests",
+            "value_": False
+        },
+        "better_questing": {
+            "path_": "overrides/config/betterquesting",
+            "value_": False
+        }
+    }
 }
